@@ -240,4 +240,7 @@
  */
 - (void)mapController:(XMMapController *)mapController annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;
 
+- (void)mapController:(XMMapController *)mapController didSelectAnnotationView:(MKAnnotationView *)view;
+- (void)mapController:(XMMapController *)mapController didDeselectAnnotationView:(MKAnnotationView *)view;
+
 @end

@@ -365,6 +365,18 @@
 	return nil;
 }
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    if ([_delegate respondsToSelector:@selector(mapController:didSelectAnnotationView:)]) {
+        [_delegate mapController:self didSelectAnnotationView:view];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didDeSelectAnnotationView:(MKAnnotationView *)view {
+    if ([_delegate respondsToSelector:@selector(mapController:didDeselectAnnotationView:)]) {
+        [_delegate mapController:self didDeselectAnnotationView:view];
+    }
+}
+
 - (void)tileService:(XMTileService *)tileService failedWithError:(NSError *)error
 {
 	[_delegate mapController:self failedWithError:error];
