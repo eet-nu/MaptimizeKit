@@ -138,7 +138,7 @@ NSString *sSessionId = nil;
 
 + (void)setSessionId:(NSString *)sessionId
 {
-	SC_RELEASE_SAFELY(sSessionId);
+	SCR_RELEASE_SAFELY(sSessionId);
 	sSessionId = [sessionId copy];
 }
 

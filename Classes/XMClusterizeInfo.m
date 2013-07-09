@@ -10,7 +10,7 @@
 
 #import "XMClusterizeInfo.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMClusterizeInfo
 
@@ -30,8 +30,8 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_tiles);
-	SC_RELEASE_SAFELY(_graph);
+	SCR_RELEASE_SAFELY(_tiles);
+	SCR_RELEASE_SAFELY(_graph);
 	
 	[super dealloc];
 }

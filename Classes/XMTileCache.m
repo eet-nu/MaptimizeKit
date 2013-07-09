@@ -11,7 +11,7 @@
 #import "XMTileCache.h"
 #import "XMTileCacheDelegate.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMTileCache
 
@@ -33,7 +33,7 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_cache);
+	SCR_RELEASE_SAFELY(_cache);
 	[super dealloc];
 }
 

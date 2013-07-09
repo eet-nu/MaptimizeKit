@@ -10,7 +10,7 @@
 
 #import "XMMarker.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMMarker
 
@@ -41,7 +41,7 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_identifier);
+	SCR_RELEASE_SAFELY(_identifier);
 	[super dealloc];
 }
 

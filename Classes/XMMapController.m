@@ -55,12 +55,12 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_optimizeService);
-	SC_RELEASE_SAFELY(_tileService);
-	SC_RELEASE_SAFELY(_tileCache);
-	SC_RELEASE_SAFELY(_annotations);
+	SCR_RELEASE_SAFELY(_optimizeService);
+	SCR_RELEASE_SAFELY(_tileService);
+	SCR_RELEASE_SAFELY(_tileCache);
+	SCR_RELEASE_SAFELY(_annotations);
 	
-	SC_RELEASE_SAFELY(_mapView);
+	SCR_RELEASE_SAFELY(_mapView);
 	
     [super dealloc];
 }

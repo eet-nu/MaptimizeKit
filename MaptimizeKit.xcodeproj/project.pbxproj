@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		388DDB63178C3CD600504ADE /* SCRLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 388DDB62178C3CD600504ADE /* SCRLog.h */; };
+		388DDB65178C3CE600504ADE /* SCRMemoryManagement.h in Headers */ = {isa = PBXBuildFile; fileRef = 388DDB64178C3CE600504ADE /* SCRMemoryManagement.h */; };
 		7C437A6F117F04CA000A4FC4 /* XMMercatorProjection.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C437A6D117F04CA000A4FC4 /* XMMercatorProjection.h */; };
 		7C437A70117F04CA000A4FC4 /* XMMercatorProjection.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C437A6E117F04CA000A4FC4 /* XMMercatorProjection.m */; };
 		7C437C83117F5C10000A4FC4 /* XMClusterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C437C81117F5C10000A4FC4 /* XMClusterView.h */; };
@@ -48,8 +50,6 @@
 		7C6227CE11A559DC0042495A /* XMBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C6227CD11A559DC0042495A /* XMBase.h */; };
 		7C62282E11A5613A0042495A /* XMNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C62282C11A5613A0042495A /* XMNetworkUtils.h */; };
 		7C62282F11A5613A0042495A /* XMNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C62282D11A5613A0042495A /* XMNetworkUtils.m */; };
-		7C62294F11A58F7D0042495A /* SCMemoryManagement.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C62294D11A58F7D0042495A /* SCMemoryManagement.h */; };
-		7C62295011A58F7D0042495A /* SCLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C62294E11A58F7D0042495A /* SCLog.h */; };
 		7C6229A011A593270042495A /* XMConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C62299F11A593270042495A /* XMConfig.h */; };
 		7C88BACA11A5A5DE006FB6F1 /* XMLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C88BAC911A5A5DE006FB6F1 /* XMLog.h */; };
 		7C88BBD511A68D86006FB6F1 /* GTMNSString+URLArguments.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C88BBD311A68D86006FB6F1 /* GTMNSString+URLArguments.h */; };
@@ -86,6 +86,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		388DDB62178C3CD600504ADE /* SCRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRLog.h; sourceTree = "<group>"; };
+		388DDB64178C3CE600504ADE /* SCRMemoryManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRMemoryManagement.h; sourceTree = "<group>"; };
 		7C437A6D117F04CA000A4FC4 /* XMMercatorProjection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMMercatorProjection.h; sourceTree = "<group>"; };
 		7C437A6E117F04CA000A4FC4 /* XMMercatorProjection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMMercatorProjection.m; sourceTree = "<group>"; };
 		7C437C81117F5C10000A4FC4 /* XMClusterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMClusterView.h; sourceTree = "<group>"; };
@@ -127,8 +129,6 @@
 		7C6227CD11A559DC0042495A /* XMBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = XMBase.h; sourceTree = "<group>"; };
 		7C62282C11A5613A0042495A /* XMNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMNetworkUtils.h; sourceTree = "<group>"; };
 		7C62282D11A5613A0042495A /* XMNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMNetworkUtils.m; sourceTree = "<group>"; };
-		7C62294D11A58F7D0042495A /* SCMemoryManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = SCMemoryManagement.h; path = TouchCustoms/Classes/SCMemoryManagement.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		7C62294E11A58F7D0042495A /* SCLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SCLog.h; path = TouchCustoms/Classes/SCLog.h; sourceTree = "<group>"; };
 		7C62299F11A593270042495A /* XMConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMConfig.h; sourceTree = "<group>"; };
 		7C88BAC911A5A5DE006FB6F1 /* XMLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLog.h; sourceTree = "<group>"; };
 		7C88BBD311A68D86006FB6F1 /* GTMNSString+URLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+URLArguments.h"; sourceTree = "<group>"; };
@@ -234,12 +234,22 @@
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				388DDB61178C3CA500504ADE /* TouchCustoms */,
 				7C88BBCE11A68D50006FB6F1 /* Google */,
-				7C62294C11A58F570042495A /* TouchCustoms */,
 				7CFBA2D0117C8E56001128B5 /* JSON */,
 				AA747D9E0F9514B9006C5449 /* MaptimizeKit_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		388DDB61178C3CA500504ADE /* TouchCustoms */ = {
+			isa = PBXGroup;
+			children = (
+				388DDB62178C3CD600504ADE /* SCRLog.h */,
+				388DDB64178C3CE600504ADE /* SCRMemoryManagement.h */,
+			);
+			name = TouchCustoms;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		7C4383971181B508000A4FC4 /* Network */ = {
@@ -332,15 +342,6 @@
 			name = Global;
 			sourceTree = "<group>";
 		};
-		7C62294C11A58F570042495A /* TouchCustoms */ = {
-			isa = PBXGroup;
-			children = (
-				7C62294D11A58F7D0042495A /* SCMemoryManagement.h */,
-				7C62294E11A58F7D0042495A /* SCLog.h */,
-			);
-			name = TouchCustoms;
-			sourceTree = "<group>";
-		};
 		7C88BBCE11A68D50006FB6F1 /* Google */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,13 +416,13 @@
 				7C62277F11A555080042495A /* XMTileCacheDelegate.h in Headers */,
 				7C6227CE11A559DC0042495A /* XMBase.h in Headers */,
 				7C62282E11A5613A0042495A /* XMNetworkUtils.h in Headers */,
-				7C62294F11A58F7D0042495A /* SCMemoryManagement.h in Headers */,
-				7C62295011A58F7D0042495A /* SCLog.h in Headers */,
 				7C6229A011A593270042495A /* XMConfig.h in Headers */,
 				7C88BACA11A5A5DE006FB6F1 /* XMLog.h in Headers */,
 				7C88BBD511A68D86006FB6F1 /* GTMNSString+URLArguments.h in Headers */,
 				7C88BBD811A68EB1006FB6F1 /* GTMGarbageCollection.h in Headers */,
 				7C88BBDA11A68F0E006FB6F1 /* GTMDefines.h in Headers */,
+				388DDB63178C3CD600504ADE /* SCRLog.h in Headers */,
+				388DDB65178C3CE600504ADE /* SCRMemoryManagement.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

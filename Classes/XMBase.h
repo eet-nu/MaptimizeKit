@@ -10,7 +10,7 @@
 
 #import "XMConfig.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 #if !defined(XM_INLINE)
 #  if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L

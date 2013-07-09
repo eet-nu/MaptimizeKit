@@ -10,7 +10,7 @@
 
 #import "XMGraph.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMGraph
 
@@ -32,8 +32,8 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_clusters);
-	SC_RELEASE_SAFELY(_markers);
+	SCR_RELEASE_SAFELY(_clusters);
+	SCR_RELEASE_SAFELY(_markers);
 	
 	[super dealloc];
 }

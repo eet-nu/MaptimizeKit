@@ -11,7 +11,7 @@
 #import "XMCondition.h"
 #import "JSON.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMCondition
 
@@ -80,7 +80,7 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_string);
+	SCR_RELEASE_SAFELY(_string);
 	[super dealloc];
 }
 

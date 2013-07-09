@@ -77,11 +77,11 @@
 {
 	[self cancelRequests];
 	
-	SC_RELEASE_SAFELY(_requestQueue);
-	SC_RELEASE_SAFELY(_parseQueue);
+	SCR_RELEASE_SAFELY(_requestQueue);
+	SCR_RELEASE_SAFELY(_parseQueue);
 	
-	SC_RELEASE_SAFELY(_mapKey);
-	SC_RELEASE_SAFELY(_params);
+	SCR_RELEASE_SAFELY(_mapKey);
+	SCR_RELEASE_SAFELY(_params);
 	
 	XM_LOG_TRACE(@"OptimizeService deallocated: %@", self);
 	

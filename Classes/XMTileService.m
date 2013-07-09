@@ -22,8 +22,8 @@
 #import "XMOptimizeService.h"
 #import "XMGraph.h"
 
-#import "SCMemoryManagement.h"
-#import "SCLog.h"
+#import "SCRMemoryManagement.h"
+#import "SCRLog.h"
 
 #import "AFHTTPRequestOperation.h"
 
@@ -48,8 +48,8 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_service);
-	SC_RELEASE_SAFELY(_tileCache);
+	SCR_RELEASE_SAFELY(_service);
+	SCR_RELEASE_SAFELY(_tileCache);
 	
 	[super dealloc];
 }

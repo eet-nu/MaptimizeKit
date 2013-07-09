@@ -10,7 +10,7 @@
 
 #import "XMTileInfo.h"
 
-#import "SCMemoryManagement.h"
+#import "SCRMemoryManagement.h"
 
 @implementation XMTileInfo
 
@@ -21,8 +21,8 @@
 
 - (void)dealloc
 {
-	SC_RELEASE_SAFELY(_graph);
-	SC_RELEASE_SAFELY(_data);
+	SCR_RELEASE_SAFELY(_graph);
+	SCR_RELEASE_SAFELY(_data);
 	
 	[super dealloc];
 }
