@@ -63,8 +63,8 @@ NSString *sSessionId = nil;
 	NSURL *anUrl = [XMRequest urlForMapKey:mapKey method:method bounds:bounds zoomLevel:zoomLevel params:parmas];
 	if (self = [super initWithURL:anUrl])
 	{
-		[self addRequestHeader:@"User-Agent" value:@"MaptimizeKit-iPhone"];
-		[self addRequestHeader:@"accept" value:@"application/json"];
+		[self setValue:@"MaptimizeKit-iPhone" forHTTPHeaderField:@"User-Agent"];
+		[self setValue:@"application/json"    forHTTPHeaderField:@"accept"];
 	}
 	
 	return self;

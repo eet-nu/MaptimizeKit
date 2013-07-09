@@ -30,12 +30,13 @@
 #import "XMLog.h"
 
 #import "JSON.h"
+#import "AFJSONRequestOperation.h"
 
 #define DEFAULT_DISTANCE 25
 
 @interface XMOptimizeService (PrivateMethods)
 
-- (XMGraph *)parseResponse:(ASIHTTPRequest *)request;
+- (XMGraph *)parseResponse:(NSDictionary *)JSON request:(XMRequest *)request userInfo:(NSDictionary *)userInfo;
 
 - (XMCluster *)parseCluster:(NSMutableDictionary *)clusterDict;
 - (XMMarker *)parseMarker:(NSMutableDictionary *)markerDict;
@@ -189,15 +190,13 @@
 		return;
 	}
 	
-	for (XMRequest *request in operations)
+	for (AFJSONRequestOperation *requestOperation in operations)
 	{
-		request.delegate = nil;
-		
-		XM_LOG_TRACE(@"Request cancelled: %@", request);
+		XM_LOG_TRACE(@"Request cancelled: %@", requestOperation);
 		
 		if ([self.delegate respondsToSelector:@selector(optimizeService:didCancelRequest:userInfo:)])
 		{
-			[self.delegate optimizeService:self didCancelRequest:request userInfo:[request.userInfo objectForKey:@"userInfo"]];
+			[self.delegate optimizeService:self didCancelRequest:requestOperation userInfo:[requestOperation.userInfo objectForKey:@"userInfo"]];
 		}
 	}
 	
@@ -233,12 +232,30 @@
 		[info setObject:userInfo forKey:@"userInfo"];
 	}
 	
- 	request.userInfo = info;
-	request.delegate = self;
-	request.didFinishSelector = @selector(clusterizeRequestDone:);
-	request.didFailSelector = @selector(requestWentWrong:);
+	AFJSONRequestOperation *requestOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+	success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON){
+		// JSON might be empty because the request was cancelled
+		if (JSON) {
+			XM_LOG_TRACE(@"request done: %@", request);
+		
+			NSArray *objects = @[request, info, JSON];
+			NSArray *keys    = @[@"request", @"userInfo", @"graphDict"];
 	
-	[_requestQueue addOperation:request];
+			NSDictionary *requestDictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+	
+			NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(parseClusterizeRequest:) object:requestDictionary];
+			[_parseQueue addOperation:operation];
+	  
+			XM_LOG_TRACE(@"parse operation started: %@", operation);
+			[operation release];
+		}
+	} failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+		[self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
+	}];
+	
+	requestOperation.userInfo = info;
+	
+	[_requestQueue addOperation:requestOperation];
 	XM_LOG_TRACE(@"request started: %@", request);
 	[request release];
 	[info release];
@@ -291,89 +308,76 @@
 		[info setObject:userInfo forKey:@"userInfo"];
 	}
 	
-	request.userInfo = info;
-	request.delegate = self;
-	request.didFinishSelector = @selector(selectRequestDone:);
-	request.didFailSelector = @selector(requestWentWrong:);
 	
-	[_requestQueue addOperation:request];
+	AFJSONRequestOperation *requestOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
+	  success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *response, id JSON){
+		  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		  
+		  XM_LOG_TRACE(@"request done: %@", request);
+		  
+		  XMGraph *graph = [self parseResponse:JSON request:request userInfo:info];
+		  
+		  XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
+		  XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
+		  
+		  if (graph)
+		  {
+			  if ([self.delegate respondsToSelector:@selector(optimizeService:didSelect:userInfo:)])
+			  {
+				  [self.delegate optimizeService:self didSelect:graph userInfo:info];
+			  }
+		  }
+		  
+		  [pool release];
+	} failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+	    [self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
+	}];
+	
+	[_requestQueue addOperation:requestOperation];
 	XM_LOG_TRACE(@"request started: %@", request);
 	[request release];
 	[info release];
 }
 
-- (void)clusterizeRequestDone:(ASIHTTPRequest *)request
-{
-	XM_LOG_TRACE(@"request done: %@", request);
-	
-	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(parseClusterizeRequest:) object:request];
-	[_parseQueue addOperation:operation];
-	
-	XM_LOG_TRACE(@"parse operation started: %@", operation);
-	[operation release];
-}
-
-- (void)parseClusterizeRequest:(id)data
-{
+- (void)parseClusterizeRequest:(NSDictionary *)requestDictionary
+{	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	ASIHTTPRequest *request = data;
-	XMGraph *graph = [self parseResponse:request];
+	XMRequest *request      = [requestDictionary objectForKey:@"request"];
+	NSDictionary *graphDict = [requestDictionary objectForKey:@"graphDict"];
+	NSDictionary *userInfo  = [requestDictionary objectForKey:@"userInfo"];
+	XMGraph *graph = [self parseResponse:[graphDict mutableCopy] request:request userInfo:userInfo];
 	
 	if (graph)
 	{
-		NSMutableDictionary *info = (NSMutableDictionary *)request.userInfo;
+		NSMutableDictionary *info = (NSMutableDictionary *)[requestDictionary objectForKey:@"userInfo"];
 		[info setObject:graph forKey:@"graph"];
-		[self performSelectorOnMainThread:@selector(clusterizeRequestParsed:) withObject:request waitUntilDone:YES];
+		[self performSelectorOnMainThread:@selector(clusterizeRequestParsed:) withObject:requestDictionary waitUntilDone:YES];
 	}
 	
 	[pool release];
 }
 
-- (void)clusterizeRequestParsed:(ASIHTTPRequest *)request
+- (void)clusterizeRequestParsed:(NSDictionary *)requestDictionary
 {
-	XMGraph *graph = [request.userInfo objectForKey:@"graph"];
+	XMGraph *graph = [[requestDictionary objectForKey:@"userInfo"] objectForKey:@"graph"];
 	
 	XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
 	XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
 	
 	if ([self.delegate respondsToSelector:@selector(optimizeService:didClusterize:userInfo:)])
 	{
-		[self.delegate optimizeService:self didClusterize:graph userInfo:[request.userInfo objectForKey:@"userInfo"]];
+		[self.delegate optimizeService:self didClusterize:graph userInfo:[[requestDictionary objectForKey:@"userInfo"] objectForKey:@"userInfo"]];
 	}
 }
 
-- (void)selectRequestDone:(ASIHTTPRequest *)request
+- (void)requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)userInfo
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	XM_LOG_TRACE(@"request done: %@", request);
-	
-	XMGraph *graph = [self parseResponse:request];
-	
-	XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
-	XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
-	
-	if (graph)
-	{
-		if ([self.delegate respondsToSelector:@selector(optimizeService:didSelect:userInfo:)])
-		{
-			[self.delegate optimizeService:self didSelect:graph userInfo:[request.userInfo objectForKey:@"userInfo"]];
-		}
-	}
-	
-	[pool release];
-}
-
-- (void)requestWentWrong:(ASIHTTPRequest *)request
-{
-	id userInfo = [request.userInfo objectForKey:@"userInfo"];
-	
-	XM_LOG_ERROR(@"request failed: %@, error: %@, userInfo: %@", request, request.error, userInfo);
+	XM_LOG_ERROR(@"request failed: %@, error: %@, userInfo: %@", request, error, userInfo);
 	
 	[self.delegate optimizeService:self
-				   failedWithError:request.error
-						  userInfo:userInfo];
+				   failedWithError:error
+						  userInfo:[userInfo objectForKey:@"userInfo"]];
 }
 
 #pragma mark Private Methods
@@ -390,37 +394,15 @@
 	[self performSelectorOnMainThread:@selector(notifyError:) withObject:error waitUntilDone:YES];
 }
 
-- (XMGraph *)parseResponse:(ASIHTTPRequest *)request
+- (XMGraph *)parseResponse:(NSDictionary *)graphDict request:(XMRequest *)request userInfo:(NSDictionary *)userInfo
 {
-	NSString *response = [request responseString];
-	
-	XM_LOG_TRACE(@"string response: %@", response);
-	
-	SBJSON *parser = [SBJSON new];
-	NSError *error = nil;
-	NSDictionary *graphDict = [parser objectWithString:response error:&error];
-	
-	if (error)
-	{
-		id userInfo = [request.userInfo objectForKey:@"userInfo"];
-		
-		XM_LOG_ERROR(@"error: %@, userInfo: %@", error, userInfo);
-		
-		[self.delegate optimizeService:self failedWithError:error userInfo:userInfo];
-		
-		[parser release];
-		return nil;
-	}
-	
-	[parser release];
-	
 	XM_LOG_TRACE(@"dictionary response: %@", graphDict);
 	
 	if (![self verifyGraph:graphDict])
 	{
 		[self notifyErrorInMainThread:[NSError errorWithDomain:XM_OPTIMIZE_ERROR_DOMAIN
 														  code:XM_OPTIMIZE_RESPONSE_INVALID
-													  userInfo:[request.userInfo objectForKey:@"userInfo"]]];
+													  userInfo:[userInfo objectForKey:@"userInfo"]]];
 		
 		return nil;
 	}
@@ -430,7 +412,7 @@
 	{
 		[self notifyErrorInMainThread:[NSError errorWithDomain:XM_OPTIMIZE_ERROR_DOMAIN
 														  code:XM_OPTIMIZE_RESPONSE_SUCCESS_NO
-													  userInfo:[request.userInfo objectForKey:@"userInfo"]]];
+													  userInfo:[userInfo objectForKey:@"userInfo"]]];
 		
 		return nil;
 	}
@@ -440,10 +422,10 @@
 	
 	[XMRequest setSessionId:sessionId];
 	
-	NSUInteger zoomLevel = [[request.userInfo objectForKey:@"zoomLevel"] unsignedIntValue];
+	NSUInteger zoomLevel = [[userInfo objectForKey:@"zoomLevel"] unsignedIntValue];
 	XMMercatorProjection *projection = [[XMMercatorProjection alloc] initWithZoomLevel:zoomLevel];
 	
-	NSValue *boundsValue = [request.userInfo objectForKey:@"bounds"];
+	NSValue *boundsValue = [userInfo objectForKey:@"bounds"];
 	XMBounds bounds = [boundsValue xmBoundsValue];
 	
 	NSUInteger totalCount = 0;
@@ -505,7 +487,7 @@
 
 - (XMCluster *)parseCluster:(NSMutableDictionary *)clusterDict
 {
-	NSMutableDictionary *data = clusterDict;//[clusterDict mutableCopy];
+	NSMutableDictionary *data = [clusterDict mutableCopy];
 	
 	NSString *coordString = [clusterDict objectForKey:@"coords"];
 	[data removeObjectForKey:@"coords"];
@@ -537,7 +519,7 @@
 
 - (XMMarker *)parseMarker:(NSMutableDictionary *)markerDict
 {
-	NSMutableDictionary *data = markerDict;//[markerDict mutableCopy];
+	NSMutableDictionary *data = [markerDict mutableCopy];
 	
 	NSString *coordString = [markerDict objectForKey:@"coords"];
 	[data removeObjectForKey:@"coords"];

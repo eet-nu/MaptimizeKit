@@ -10,7 +10,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ASIHTTPRequest.h"
 #import "XMBounds.h"
 
 extern const NSString *kXMDistance;
@@ -25,7 +24,7 @@ extern const NSString *kXMOffset;
 
 extern const NSString *kXMOrder;
 
-@interface XMRequest : ASIHTTPRequest
+@interface XMRequest : NSMutableURLRequest
 {
 }
 

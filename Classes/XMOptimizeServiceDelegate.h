@@ -9,6 +9,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFHTTPRequestOperation.h"
 
 @class XMOptimizeService;
 @class XMRequest;
@@ -21,6 +22,6 @@
 
 - (void)optimizeService:(XMOptimizeService *)optimizeService didClusterize:(XMGraph *)graph userInfo:(id)userInfo;
 - (void)optimizeService:(XMOptimizeService *)optimizeService didSelect:(XMGraph *)graph userInfo:(id)userInfo;
-- (void)optimizeService:(XMOptimizeService *)optimizeService didCancelRequest:(XMRequest *)request userInfo:(id)userInfo;
+- (void)optimizeService:(XMOptimizeService *)optimizeService didCancelRequest:(AFHTTPRequestOperation *)requestOperation userInfo:(id)userInfo;
 
 @end

@@ -25,6 +25,8 @@
 #import "SCMemoryManagement.h"
 #import "SCLog.h"
 
+#import "AFHTTPRequestOperation.h"
+
 @implementation XMTileService
 
 @synthesize delegate = _delegate;
@@ -218,7 +220,7 @@
 	[_delegate tileService:self failedWithError:error];
 }
 
-- (void)optimizeService:(XMOptimizeService *)optimizeService didCancelRequest:(XMRequest *)request userInfo:(id)userInfo
+- (void)optimizeService:(XMOptimizeService *)optimizeService didCancelRequest:(AFHTTPRequestOperation *)requestOperation userInfo:(id)userInfo
 {
 	XMClusterizeInfo *info = userInfo;
 	for (XMTileInfo *tileInfo in info.tiles)
