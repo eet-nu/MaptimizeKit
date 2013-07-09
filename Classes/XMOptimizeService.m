@@ -362,8 +362,8 @@
 {
 	XMGraph *graph = [[requestDictionary objectForKey:@"userInfo"] objectForKey:@"graph"];
 	
-	XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
-	XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
+	XM_LOG_TRACE(@"request parsed: %@, graph: %@", [requestDictionary objectForKey:@"request"], graph);
+	XM_LOG_DEBUG(@"request completed: %@, graph: %@", [requestDictionary objectForKey:@"request"], graph);
 	
 	if ([self.delegate respondsToSelector:@selector(optimizeService:didClusterize:userInfo:)])
 	{
