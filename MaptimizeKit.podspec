@@ -10,10 +10,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/eet-nu/MaptimizeKit.git", :tag => "1.0.0" }
   s.platform     = :ios, '6.0'
 
-  s.source_files = 'Classes', 'Classes/**/*.{h,m}', 'GTMNSString+URLArguments.{h,m}'
-  s.exclude_files = 'Classes/Exclude'
-
-  s.public_header_files = 'Classes/**/*.h GTMNSString+URLArguments.h'
+  s.source_files = 'Classes', 'Classes/**/*.{h,m}', 'GTMNSString+URLArguments.{h,m}', 'GTMGarbageCollection.h', 'GTMDefines.h'
 
   s.requires_arc = false
 
