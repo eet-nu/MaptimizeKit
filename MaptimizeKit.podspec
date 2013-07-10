@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = "MaptimizeKit is a Cocoa Touch static library that help to display Maptimize markers and clusters on a MKMapView."
   s.homepage     = "https://github.com/eet-nu/MaptimizeKit"
 
-  s.license      = "Unknown"
+  s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Oleg Shnitko" => "olegshnitko@gmail.com" }
   
   s.source       = { :git => "https://github.com/eet-nu/MaptimizeKit.git", :tag => "1.0.0" }
