@@ -1,0 +1,3 @@
+[submodule "TouchCustoms"]
+	path = TouchCustoms
+	url = git://github.com/nesterow/TouchCustoms.git
