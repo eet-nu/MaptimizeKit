@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MaptimizeKit"
-  s.version      = "1.0.0"
+  s.version      = "2.0.0"
   s.summary      = "MaptimizeKit is a Cocoa Touch static library that help to display Maptimize markers and clusters on a MKMapView."
   s.homepage     = "https://github.com/eet-nu/MaptimizeKit"
 
