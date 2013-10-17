@@ -520,6 +520,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MaptimizeKit_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					AFNetworking/AFNetworking,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -539,6 +544,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MaptimizeKit_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					"<Multiple",
+					"values>",
+					AFNetworking/AFNetworking,
+				);
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-all_load",

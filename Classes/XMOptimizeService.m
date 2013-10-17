@@ -30,7 +30,6 @@
 #import "XMLog.h"
 
 #import "JSON.h"
-#import "AFJSONRequestOperation.h"
 
 #define DEFAULT_DISTANCE 25
 
@@ -190,7 +189,7 @@
 		return;
 	}
 	
-	for (AFJSONRequestOperation *requestOperation in operations)
+	for (AFHTTPRequestOperation *requestOperation in operations)
 	{
 		XM_LOG_TRACE(@"Request cancelled: %@", requestOperation);
 		
@@ -231,27 +230,27 @@
 	{
 		[info setObject:userInfo forKey:@"userInfo"];
 	}
-	
-	AFJSONRequestOperation *requestOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-	success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON){
-		// JSON might be empty because the request was cancelled
+    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id JSON) {
+        // JSON might be empty because the request was cancelled
 		if (JSON) {
 			XM_LOG_TRACE(@"request done: %@", request);
-		
+            
 			NSArray *objects = @[request, info, JSON];
 			NSArray *keys    = @[@"request", @"userInfo", @"graphDict"];
-	
+            
 			NSDictionary *requestDictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	
+            
 			NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(parseClusterizeRequest:) object:requestDictionary];
 			[_parseQueue addOperation:operation];
-	  
+            
 			XM_LOG_TRACE(@"parse operation started: %@", operation);
 			[operation release];
 		}
-	} failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-		[self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
-	}];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
+    }];
 	
 	requestOperation.userInfo = info;
 	
@@ -308,30 +307,30 @@
 		[info setObject:userInfo forKey:@"userInfo"];
 	}
 	
-	
-	AFJSONRequestOperation *requestOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-	  success:^(NSURLRequest *urlRequest, NSHTTPURLResponse *response, id JSON){
-		  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		  
-		  XM_LOG_TRACE(@"request done: %@", request);
-		  
-		  XMGraph *graph = [self parseResponse:JSON request:request userInfo:info];
-		  
-		  XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
-		  XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
-		  
-		  if (graph)
-		  {
-			  if ([self.delegate respondsToSelector:@selector(optimizeService:didSelect:userInfo:)])
-			  {
-				  [self.delegate optimizeService:self didSelect:graph userInfo:info];
-			  }
-		  }
-		  
-		  [pool release];
-	} failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-	    [self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
-	}];
+	AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    requestOperation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id JSON) {
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
+        XM_LOG_TRACE(@"request done: %@", request);
+        
+        XMGraph *graph = [self parseResponse:JSON request:request userInfo:info];
+        
+        XM_LOG_TRACE(@"request parsed: %@, graph: %@", request, graph);
+        XM_LOG_DEBUG(@"request completed: %@, graph: %@", request, graph);
+        
+        if (graph)
+        {
+            if ([self.delegate respondsToSelector:@selector(optimizeService:didSelect:userInfo:)])
+            {
+                [self.delegate optimizeService:self didSelect:graph userInfo:info];
+            }
+        }
+        
+        [pool release];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self requestWentWrong:(XMRequest *)request error:(NSError *)error userInfo:(NSDictionary *)info];
+    }];
 	
 	[_requestQueue addOperation:requestOperation];
 	XM_LOG_TRACE(@"request started: %@", request);

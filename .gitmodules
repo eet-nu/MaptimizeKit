@@ -1,3 +1,6 @@
 [submodule "TouchCustoms"]
 	path = TouchCustoms
 	url = git://github.com/nesterow/TouchCustoms.git
+[submodule "AFNetworking"]
+	path = AFNetworking
+	url = git@github.com:AFNetworking/AFNetworking.git
