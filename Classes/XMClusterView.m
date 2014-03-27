@@ -104,8 +104,8 @@ static const CGFloat components[5][8] = {
 	
 	[title drawInRect:CGRectMake(0, rect.size.height / 2 - tSize.height / 2, rect.size.width, tSize.height)
 			 withFont:[UIFont boldSystemFontOfSize:12]
-		lineBreakMode:UILineBreakModeClip
-			alignment:UITextAlignmentCenter];
+		lineBreakMode:NSLineBreakByClipping
+			alignment:NSTextAlignmentCenter];
 	
     CGContextRestoreGState(context);
 }
