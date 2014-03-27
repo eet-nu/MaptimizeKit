@@ -452,7 +452,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "MaptimizeKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -512,7 +512,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = NO;
 				DSTROOT = /tmp/MaptimizeKit.dst;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -531,7 +530,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = MaptimizeKit;
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -539,7 +538,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				DSTROOT = /tmp/MaptimizeKit.dst;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -555,14 +553,13 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = MaptimizeKit;
-				SDKROOT = iphoneos6.1;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
 		1DEB922308733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
@@ -570,22 +567,22 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		1DEB922408733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-ObjC";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
