@@ -441,7 +441,7 @@
 
 - (void)tileCache:(XMTileCache *)tileCache reachedCapacity:(NSUInteger)capacity
 {
-	NSLog(@"tileCache reached capacity: %d", capacity);
+	NSLog(@"tileCache reached capacity: %lu", (unsigned long)capacity);
 	
 	NSLog(@"clearing all except last tile rect");
 	[tileCache clearAllExceptRect:_lastRect];
@@ -468,7 +468,7 @@
 	[annotations release];
 	
 	NSUInteger count = tileCache.tilesCount;
-	NSLog(@"tilesCount: %d", count);
+	NSLog(@"tilesCount: %lu", (unsigned long)count);
 }
 
 @end

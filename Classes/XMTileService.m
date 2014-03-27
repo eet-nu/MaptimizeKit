@@ -267,13 +267,13 @@
 
 - (void)tileCache:(XMTileCache *)tileCache reachedCapacity:(NSUInteger)capacity
 {
-	NSLog(@"tileCache reached capacity: %d", capacity);
+	NSLog(@"tileCache reached capacity: %lu", (unsigned long)capacity);
 	
-	NSLog(@"clearing levels except: %d", _lastLevel);
+	NSLog(@"clearing levels except: %lu", (unsigned long)_lastLevel);
 	[tileCache clearAllExceptLevel:_lastLevel];
 	
 	NSUInteger count = tileCache.tilesCount;
-	NSLog(@"tilesCount: %d", count);
+	NSLog(@"tilesCount: %lu", (unsigned long)count);
 	
 	if (count < capacity)
 	{
@@ -284,7 +284,7 @@
 	[tileCache clearAllExceptRect:_lastRect];
 	
 	count = tileCache.tilesCount;
-	NSLog(@"tilesCount: %d", count);
+	NSLog(@"tilesCount: %lu", (unsigned long)count);
 	
 	if (count < capacity)
 	{

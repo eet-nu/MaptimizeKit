@@ -101,8 +101,7 @@
 - (void)setDistance:(NSUInteger)distance
 {
 	XM_LOG_TRACE(@"OptimizeService changed grouping distance: %d", distance);
-	
-	[_params setObject:[NSNumber numberWithUnsignedInt:distance] forKey:kXMDistance];
+	[_params setObject:@(distance) forKey:kXMDistance];
 }
 
 - (NSArray *)properties
@@ -221,10 +220,11 @@
 																  params:_params];
 	
 	NSValue *boundsValue = [NSValue valueWithXMBounds:bounds];
-	
-	NSMutableDictionary *info = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-								 [NSNumber numberWithUnsignedInt:zoomLevel], @"zoomLevel",
-								 boundsValue, @"bounds", nil];
+	   
+    NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:@{
+                                                                                @"zoomLevel": @(zoomLevel),
+                                                                                @"bounds": boundsValue,
+                                                                                }];
 	
 	if (userInfo)
 	{
@@ -285,8 +285,8 @@
 				 NSStringFromXMBounds(bounds), zoomLevel, offset, limit, order, userInfo);
 	
 	NSMutableDictionary *params = [_params mutableCopy];
-	[params setObject:[NSNumber numberWithUnsignedInt:offset] forKey:kXMOffset];
-	[params setObject:[NSNumber numberWithUnsignedInt:limit] forKey:kXMLimit];
+	[params setObject:@(offset) forKey:kXMOffset];
+	[params setObject:@(limit) forKey:kXMLimit];
 	
 	if (order.length)
 	{
@@ -299,8 +299,7 @@
 																params:params];
 	[params release];
 	
-	NSMutableDictionary *info = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-								 [NSNumber numberWithUnsignedInt:zoomLevel], @"zoomLevel", nil];
+    NSMutableDictionary *info = [NSMutableDictionary dictionaryWithDictionary:@{ @"zoomLevel": @(zoomLevel) }];
 	
 	if (userInfo)
 	{

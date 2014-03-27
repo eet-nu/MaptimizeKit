@@ -24,16 +24,16 @@ NSString *NSStringFromXMTileSize(XMTileSize size)
 
 NSString *NSStringFromXMTile(XMTile tile)
 {
-	NSString *string = [NSString stringWithFormat:@"{%d, {%lld, %lld}}",
-						tile.level,
+	NSString *string = [NSString stringWithFormat:@"{%lu, {%lld, %lld}}",
+						(unsigned long)tile.level,
 						tile.origin.x, tile.origin.y];
 	return string;
 }
 
 NSString *NSStringFromXMTileRect(XMTileRect rect)
 {
-	NSString *string = [NSString stringWithFormat:@"{%d, {%lld, %lld}, {%lld, %lld}}",
-						rect.level,
+	NSString *string = [NSString stringWithFormat:@"{%lu, {%lld, %lld}, {%lld, %lld}}",
+						(unsigned long)rect.level,
 						rect.origin.x, rect.origin.y,
 						rect.size.width, rect.size.height];
 	return string;

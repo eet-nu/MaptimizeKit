@@ -18,7 +18,7 @@
 
 - (NSString *)title
 {
-	return [NSString stringWithFormat:@"%d", _count];
+	return [NSString stringWithFormat:@"%lu", (unsigned long)_count];
 }
 
 @end

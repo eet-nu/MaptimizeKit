@@ -46,7 +46,7 @@
 		{
 			NSDate *date = (NSDate *)arg;
 			NSTimeInterval interval = [date timeIntervalSince1970];
-			NSNumber *number = [NSNumber numberWithUnsignedLongLong:((UInt64)interval)];
+			NSNumber *number = @(interval);
 			escapedArg = number;
 		}
 		else if ([arg isKindOfClass:[NSArray class]])
