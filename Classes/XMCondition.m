@@ -4,7 +4,7 @@
 //
 //  Created by Oleg Shnitko on 4/23/10.
 //  olegshnitko@gmail.com
-//  
+//
 //  Copyright © 2010 Screen Customs s.r.o. All rights reserved.
 //
 
@@ -17,9 +17,8 @@
 
 - (id)initWithFormat:(NSString *)format args:(NSArray *)arguments
 {
-	NSUInteger count = [arguments count];
-	id escapedArgs[count];
-	
+    
+    NSMutableArray *escapedArguments = [NSMutableArray array];
 	for (NSUInteger i = 0; i < [arguments count]; i++)
 	{
 		NSObject *arg = [arguments objectAtIndex:i];
@@ -60,7 +59,7 @@
 			escapedArg = escapedString;
 		}
 		
-		escapedArgs[i] = escapedArg;
+		[escapedArguments addObject:escapedArg];
 	}
 	
 	if (self = [super init])
@@ -71,7 +70,12 @@
 		}
 		else
 		{
-			_string = [[NSString alloc] initWithFormat:format arguments:(va_list)escapedArgs];
+            char *va_list = (char *)malloc(sizeof(NSString *) * [escapedArguments count]);
+            [escapedArguments getObjects:(id *)va_list];
+            
+			_string = [[NSString alloc] initWithFormat:format arguments:va_list];
+            
+            free(va_list);
 		}
 	}
 	
