@@ -70,12 +70,13 @@
 		}
 		else
 		{
-            char *va_list = (char *)malloc(sizeof(NSString *) * [escapedArguments count]);
-            [escapedArguments getObjects:(id *)va_list];
+            __unsafe_unretained id  *va_list = (__unsafe_unretained id  *) calloc(1UL, sizeof(id) * escapedArguments.count);
+            for (NSInteger i = 0; i < escapedArguments.count; i++) {
+                va_list[i] = arguments[i];
+            }
             
-			_string = [[NSString alloc] initWithFormat:format arguments:va_list];
-            
-            free(va_list);
+            _string = [[NSString alloc] initWithFormat:format, *va_list];
+            free (va_list);
 		}
 	}
 	
