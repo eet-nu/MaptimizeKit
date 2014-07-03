@@ -72,7 +72,7 @@
 		{
             __unsafe_unretained id  *va_list = (__unsafe_unretained id  *) calloc(1UL, sizeof(id) * escapedArguments.count);
             for (NSInteger i = 0; i < escapedArguments.count; i++) {
-                va_list[i] = arguments[i];
+                va_list[i] = escapedArguments[i];
             }
             
             _string = [[NSString alloc] initWithFormat:format, *va_list];
