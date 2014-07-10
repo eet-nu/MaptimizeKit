@@ -371,7 +371,7 @@
     }
 }
 
-- (void)mapView:(MKMapView *)mapView didDeSelectAnnotationView:(MKAnnotationView *)view {
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
     if ([_delegate respondsToSelector:@selector(mapController:didDeselectAnnotationView:)]) {
         [_delegate mapController:self didDeselectAnnotationView:view];
     }
